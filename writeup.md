@@ -182,20 +182,18 @@ Here are the results of the prediction:
 
 ![](./images/Predictions for test images.png)
 
-The model was able to correctly guess 7 of the 10 traffic signs, which gives an accuracy of 70%. If we ignore the result for the foreign sign, the accuracy would go up to 77.7%, still quite far from the 96.6% accuracy obtained in the test set. 
+The model was able to correctly guess 6 of the 10 traffic signs, which gives an accuracy of 60%. If we ignore the result for the foreign sign, the accuracy would go up to 66.6%, still quite far from the 96.6% accuracy obtained in the test set. 
 
-Surprisingly, the second image ('Slippery road'), gets identified as a Speed limit sign, which is of course round. The 'Dangerous curve to the right' was also mistaken for a sign with a different shape. It seems the classifier is not even correctly identifying the overall shape of the sign. 
+Surprisingly, the last image ('Dangerous curve to the right'), gets identified as a No entry sign, which has a round shape. It seems the classifier is not even correctly identifying the overall shape of the sign. 
 
 #### 3. Describe how certain the model is when predicting on each of the new images by looking at the softmax probabilities for each prediction.
 
 The code for making predictions on my final model is located in the 'Error Analysis' section of the Ipython notebook, but in this case we wanted probabilities for the top 5 classes, so a custom run was required using the 'top_k' function from tensorflow. 
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The classifier very certain of all the signals he got right, with all predictions over 99% confidence. The probability for the foreing sign is also very high, but mistaken, but we were cheating on this one, so looking at the genuine mistakes, altough the classifier is not very good with this set, it seems to know it, with all misclassifications below 50% confidence. 
 
 ![](./images/Top 5 Predictions for test images.png)
 
-
-For the second image ... 
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 #### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?

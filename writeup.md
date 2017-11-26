@@ -98,8 +98,8 @@ My final model consisted of the following layers:
 | Max pooling	 2x2      	| 2x2 stride,  outputs 15x15x18 |
 | Convolution 3x3	    | 1x1 stride, valid padding, outputs 13x13x48 |
 | RELU					|						|
-| Max pooling	 2x2     	| 2x2 stride,  outputs 7x7x96 |
-| Convolution 3x3	    | 1x1 stride, valid padding, outputs 5x5x48 |
+| Max pooling	 2x2     	| 2x2 stride,  outputs 7x7x48 |
+| Convolution 3x3	    | 1x1 stride, valid padding, outputs 5x5x96 |
 | RELU					|						|
 |Dropout| |
 | Fully connected		| 360 units        |

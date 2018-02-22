@@ -1,19 +1,18 @@
 # **Traffic Sign Recognition** 
 
-## Writeup
 
 
 ---
 
 **Build a Traffic Sign Recognition Project**
 
-The goals / steps of this project are the following:
-* Load the data set (see below for links to the project data set)
+The goal of this project is to build a classifier capable of recognizing german traffic signals. 
+
+The steps taken to achieve this goal were:
+
 * Explore, summarize and visualize the data set
 * Design, train and test a model architecture
 * Use the model to make predictions on new images
-* Analyze the softmax probabilities of the new images
-* Summarize the results with a written report
 
 
 [//]: # (Image References)
@@ -33,22 +32,9 @@ The goals / steps of this project are the following:
 
 
 
+## Data Set Summary & Exploration
 
-## Rubric Points
-### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
-
----
-### Writeup / README
-
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
-
-You're reading it! and here is a link to my [project code](https://github.com/NachoCM/CarND-Traffic-Sign-Classifier/blob/master/Traffic_Sign_Classifier.ipynb)
-
-### Data Set Summary & Exploration
-
-#### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
-
-I used the vanilla python to calculate summary statistics of the traffic
+Some summary statistics of the traffic
 signs data set:
 
 * Number of training examples = 34799
@@ -57,13 +43,11 @@ signs data set:
 * Image data shape = (32, 32, 3)
 * Number of classes = 43
 
-I then used the matplotlib library to visualize some random samples of each class, including the number of samples per class:
+Here are some random samples of each class, including the number of samples per class, visualized using the matplotlib library:
 ![alt text][sign_samples]
 
 Some classes have much more examples than others (10 times more "Speed limit 30 than 20, for example), and some of the random samples look very dark. 
 
-
-#### 2. Include an exploratory visualization of the dataset.
 
 Lets see a graphical representation of the frequency of different classes. We'll do it for the three sets of images, to check they have a similar distribution:
 
@@ -71,7 +55,7 @@ Lets see a graphical representation of the frequency of different classes. We'll
 
 It looks like the distribution is roughly the same. Even the most rare classes have at least a hundred examples. Will that be enough to train a reliable classifier? 
 
-### Design and Test a Model Architecture
+### Model Architecture Design and Test
 
 #### 1. Image data preprocessing
 
@@ -83,25 +67,25 @@ Here is an example of a traffic sign image before and after the process, with th
 
 After this, data was normalized to a N(0,1) distribution, where the NN works best.
 
-#### 1.1 Data augmentation
+#### 1.1. Data augmentation
 
-Additional samples were generated for those classes that were harder to classify (section 4). 
+Additional samples were generated for those classes that were harder to classify (see section 4). 
 For each class to be augmented, 6 additional samples were generated: 2 moved (1 to 3 pixels) 2 rotated (-15 to 15 degrees) and 2 warped (random deformations pulling or pushing each corner -5 to 5 pixels). If the class was "flippable", that is, if mirroring it horizontally it was still meaningful, those flipped samples were added to the set, and 6 samples from each were generated.
 
 Here is an example of the kind of transformations that were used. This selection includes all "flippable" classes, so that all transformations could be shown, but in the final model only one of those classes was reinforced with additional samples.
 
-![](./images/Samples from augmented set.png)
+![](./images/Samples_from_augmented_set.png)
 
 The final augmented set contains 85,679 samples with the following distribution:
-![](./images/class frequency in augmented set.png)
+![](./images/class_frequency_in_augmented_set.png)
 
  even more unbalanced than the provided set. Generating more examples for the less frequent classes was tried, but unsuccessful (refer to section 4 for more details on the process).
 
 
 
-#### 2. Describe final model architecture
+#### 2. Final Model architecture
 
-My final model consisted of the following layers:
+The final model consisted of the following layers:
 
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -124,13 +108,13 @@ My final model consisted of the following layers:
  
 
 
-#### 3. Describe how you trained your model.
+#### 3. Model training.
 
 To train the model, I used an Adam Optimizer, with cross entropy as the loss function and learning rate 0.0005 and default beta and epsilon parameters (0.9 exponential decay for the first moment, 0.999 for the second moment and 10e-8 epsilon).
 40 epochs were run for the final model with mini-batches of size 128. 
 
 
-#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93.
+#### 4. Classifier optimization
 
 My final model results were:
 
@@ -188,27 +172,27 @@ This process was repeated while the classifier kept improving the performance on
 And these are some of the specific images the classifier was having trouble with:
 
 Missclassified in class Dangerous curve to the right
-![](./images/Errors 1.png)
+![](./images/Errors_1.png)
 Missclassified in class Speed limit (120km/h)
-![](./images/Errors 2.png)
+![](./images/Errors_2.png)
 Missclassified in class Double curve
-![](./images/Errors 3.png)
+![](./images/Errors_3.png)
 Missclassified in class Speed limit (30km/h)
-![](./images/Errors 4.png)
+![](./images/Errors_4.png)
 
 
 ### Test a Model on New Images
 
 #### 1. German Traffic signs from the web
 
-Here are five German traffic signs that I found on the web (in some cases, cropped from a more general photo):
+Accuracy in the test set was acceptable, but all images in the test come from the same source as the training images (as should be, as we are interested in classifing images from a particular camera position). However, I decided to test the classifier with images from different sources. Here are five German traffic signs that I found on the web (in some cases, cropped from a more general photo):
 
-![](./images/Test sign 1.jpg) ![](./images/Test sign 2.jpg)![](./images/Test sign 3.jpg)
-![](./images/Test sign 4.jpg)![](./images/Test sign 5.jpg)![]
+![](./images/Test_sign_1.jpg) ![](./images/Test_sign_2.jpg)![](./images/Test_sign_3.jpg)
+![](./images/Test_sign_4.jpg)![](./images/Test_sign_5.jpg)![]
 
 Number two and five might be the most challenging, as one is rotated and the other a bit skewed. All of them are taken in excellent conditions.
 Here's how they look when resized to 32x32:
-![](./images/Test signs resized.png)
+![](./images/Test_signs_resized.png)
 
 
 
@@ -216,14 +200,17 @@ Here's how they look when resized to 32x32:
 
 Here are the results of the prediction:
 
-![](./images/Predictions for test images.png)
+![](./images/Predictions_for_test_images.png)
 
 The model was able to correctly guess all test signs! This aligns with expectation, as the the model had a test set accuracy of 0.966. We have to also take into account that all these images are from signs with very good lightning conditions, so it's possible it works even better than in the test set. However, it's not possible to draw much conclusions from such a small set of images.
 
-#### 3. Describe how certain the model is when predicting on each of the new images by looking at the softmax probabilities for each prediction.
-
-The code for making predictions on my final model is located in the 'Error Analysis' section of the Ipython notebook, but in this case we wanted probabilities for the top 5 classes, so a custom run was required using the 'top_k' function from tensorflow. 
+Let's see how certain the model was of these predictions, using the 'top_k' function from tensorflow. 
 
 The classifier was very certain of the guess for 3 of the signals (p~1), and also quite sure about the other two (p=0.97, and p=0.83) 
 
-![](./images/Top 5 Predictions for test images.png)
+![](./images/Top_5_Predictions_for_test_images.png)
+
+---
+
+This project was completed for the Udacity Self Driving Car Nanodegree 
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
